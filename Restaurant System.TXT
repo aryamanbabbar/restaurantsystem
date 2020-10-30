@@ -1,0 +1,373 @@
+import mysql.connector
+import csv
+con=mysql.connector.connect(host='localhost',password='***',username='root')
+if con.is_connected():
+    pass    
+cursor=con.cursor()
+cursor.execute("use Restaurant")
+cursor.execute("drop table if exists Restaurant.Menu")
+cursor.execute("create table Menu(Dish_code Varchar(10) Primary key, Dish_name Varchar(20) unique, Dish_nature varchar(20) not null, veg_nonveg varchar(15) not null, portion_size varchar(12), price float(5) not null)")
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   10    ','    Dal Makhni      ', '    Main course     ', '   Vegetarian   ', '  Serves 2  ', 200.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   07    ','    Fried Chicken   ', '       Snacks       ', ' Non-Vegetarian ', '  Serves 3  ', 400.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   01    ','      Masala Tea    ', '     Beverage       ', '   Vegetarian   ', '  Serves 1  ', 50.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   03    ','    French Fries    ', '       Snacks       ', '   Vegetarian   ', '  Serves 2  ', 100.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   11    ','    Shahi Paneer    ', '    Main course     ', '   Vegetarian   ', '  Serves 2  ', 200.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   09    ','  Margherita Pizza  ', '       Snacks       ', '   Vegetarian   ', '  Serves 2  ', 300.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   05    ','    Veg. Chowmein   ', '       Snacks       ', '   Vegetarian   ', '  Serves 1  ', 150.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   06    ','    Egg Chowmein    ', '       Snacks       ', ' Non-Vegetarian ', '  Serves 1  ', 175.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   08    ','   Chicken Lasagna  ', '    Main course     ', ' Non-Vegetarian ', '  Serves 2  ', 400.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   13    ','    Rann Alishan    ', '    Main course     ', ' Non-Vegetarian ', '  Serves 3  ', 500.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   04    ','  Peri-Peri Maggi   ', '       Snacks       ', '   Vegetarian   ', '  Serves 2  ', 75.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   02    ','    Cold Coffee     ', '     Beverage       ', '   Vegetarian   ', '  Serves 1  ', 100.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   14    ','  Chicken Parantha  ', '       Breads       ', ' Non-Vegetarian ', '  Serves 1  ', 50.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   16    ','  Lacchha Parantha  ', '       Breads       ', '   Vegetarian   ', '  Serves 1  ', 25.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   15    ','   Tandoori Roti    ', '       Breads       ', '   Vegetarian   ', '  Serves 1  ', 15.00))
+con.commit()
+cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format('   12    ','   Butter Chicken   ', '    Main course     ', ' Non-Vegetarian ', '  Serves 3  ', 340.00))
+con.commit()
+cursor.execute("select * from Menu order by Dish_code asc")
+data=cursor.fetchall()
+print("========================================================================================")
+print("|Dish code|     Dish Name      |      Dish Type     |  Suitable for |Serving Size|Price|")
+print("========================================================================================")
+print("========================================================================================")
+for row in data:
+    print("",end="|")
+    for i in row:
+        if(type(i)==float and len(str(i))==4):
+            print(i,end=" |")
+        else:    
+            print(i,end="|")
+    print("")
+    print("========================================================================================")
+def insertnew(relation):
+    global table
+    cursor.execute("select max(Dish_code) from Menu")
+    data=cursor.fetchall()
+    for i in data:
+        a=i
+    b="   "+str(int(a[0].strip())+1)+"    "
+    c=int(input("Enter 1 if the dish is a beverage, 2 if snack, 3 if main course and 4 if bread: "))
+    if(c==1):
+        dishnat='     Beverage       '
+    elif(c==2):
+        dishnat='       Snacks       '
+    elif(c==3):
+        dishnat='    Main course     '
+    elif(c==4):
+        dishnat='       Breads       '
+    elif(c not in [1,2,3,4]):
+        print("Enter a valid choice next time.")
+        insertnew()
+    d=input("Enter a if the dish is vegetarian or b if it is non vegetarian: ")
+    if(d=='a'):
+        vnv='   Vegetarian   '
+    elif(d=='b'):
+        vnv=' Non-Vegetarian '
+    elif(d!='a' and d!='b'):
+        print("Enter a valid choice next time.")
+        insertnew()
+    e=int(input("How many people does the dish serve? "))
+    serve='  Serves '+str(e)+'  '
+    l=input("Enter dish name. ")
+    n=len(l)
+    if(len(l)>20):
+        print("Enter dish name in less than 20 characters.")
+        insertnew()
+    else:
+        o=20-len(l)
+        if(o%2==0):
+            dish=" "*(o//2)+l+" "*(o//2)
+        else:
+            dish=" "*((o-1)//2)+l+" "*((o+1)//2)
+    
+    f=float(input("Enter the price of the dish: "))
+    cursor.execute("insert into {}(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format(relation, b, dish, dishnat, vnv, serve, f))
+    con.commit()
+    print("Here's the new menu!")
+    cursor.execute("select * from {} order by Dish_code asc".format(relation,))
+    data=cursor.fetchall()
+    print("========================================================================================")
+    print("|Dish code|     Dish Name      |      Dish Type     |  Suitable for |Serving Size|Price|")
+    print("========================================================================================")
+    print("========================================================================================")
+    for row in data:
+        print("",end="|")
+        for i in row:
+            if(type(i)==float and len(str(i))==4):
+                print(i,end=" |")
+            else:    
+                print(i,end="|")
+        print("")
+        print("========================================================================================")
+    m=input("Do you want to add more dishes? Type y if yes and any other letter to exit. ")
+    if(m=="y"):
+        insertnew()
+    else:
+        pass
+    cursor.execute("drop table if exists Restaurant.Menu")
+    cursor.execute("create table Menu(Dish_code Varchar(10) Primary key, Dish_name Varchar(20) unique, Dish_nature varchar(20) not null, veg_nonveg varchar(15) not null, portion_size varchar(12), price float(5) not null)")
+    for row in data:
+        cursor.execute("insert into Menu(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+        con.commit()
+    table="Menu"
+    return(table)
+def selectprice(relation):
+    global table
+    a=int(input("Enter the price lesser than or equal to or greater than or equal to which you want your dishes to be: "))
+    b=int(input("Enter 1 if dishes must be less than above price and 2 if greater than: "))
+    if(b==1):
+        cursor.execute("select * from {} where Price<={} order by Dish_code asc".format(relation, a))
+        data=cursor.fetchall()
+        print("========================================================================================")
+        print("|Dish code|     Dish Name      |      Dish Type     |  Suitable for |Serving Size|Price|")
+        print("========================================================================================")
+        print("========================================================================================")
+        for row in data:
+            print("",end="|")
+            for i in row:
+                if(type(i)==float and len(str(i))==4):
+                    print(i,end=" |")
+                else:    
+                    print(i,end="|")
+            print("")
+            print("========================================================================================")
+    elif(b==2):
+        cursor.execute("select * from {} where Price>={} order by Dish_code asc".format(relation, a))
+        data=cursor.fetchall()
+        print("========================================================================================")
+        print("|Dish code|     Dish Name      |      Dish Type     |  Suitable for |Serving Size|Price|")
+        print("========================================================================================")
+        print("========================================================================================")
+        for row in data:
+            print("",end="|")
+            for i in row:
+                if(type(i)==float and len(str(i))==4):
+                    print(i,end=" |")
+                else:    
+                    print(i,end="|")
+            print("")
+            print("========================================================================================")
+    else:
+        print("Enter a valid option next time.")
+        print("Re-run the programme.")
+    b=int(input("Do you want to continue with this table (press 1) or the original (press 2). "))
+    if(b==2):
+        table="Menu"
+    elif(b==1):
+        cursor.execute("drop table if exists Restaurant.Intermediate")
+        cursor.execute("create table Intermediate(Dish_code Varchar(10) Primary key, Dish_name Varchar(20) unique, Dish_nature varchar(20) not null, veg_nonveg varchar(15) not null, portion_size varchar(12), price float(5) not null)")
+        for row in data:
+            cursor.execute("insert into Intermediate(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+            con.commit()
+        table="Intermediate"
+    else:
+        print("Enter a valid integer next time.")
+        filteration("Menu")
+    return(table)
+def selectdishtype(relation):
+    global table
+    c=int(input("Enter 1 if you would like to view beverages, 2 for snacks, 3 for main course and  4 for breads. "))
+    if(c==1):
+        dishnat='     Beverage       '
+    elif(c==2):
+        dishnat='       Snacks       '
+    elif(c==3):
+        dishnat='    Main course     '
+    elif(c==4):
+        dishnat='       Breads       '
+    elif(c not in [1,2,3,4]):
+        print("Enter a valid choice next time.")
+        print("Re-run the programme.")
+    cursor.execute("select * from {} where Dish_nature='{}' order by Dish_code asc".format(relation, dishnat))
+    data=cursor.fetchall()
+    print("========================================================================================")
+    print("|Dish code|     Dish Name      |      Dish Type     |  Suitable for |Serving Size|Price|")
+    print("========================================================================================")
+    print("========================================================================================")
+    for row in data:
+        print("",end="|")
+        for i in row:
+            if(type(i)==float and len(str(i))==4):
+                print(i,end=" |")
+            else:    
+                print(i,end="|")
+        print("")
+        print("========================================================================================")
+    b=int(input("Do you want to continue with this table (press 1) or the original (press 2). "))
+    if(b==2):
+        table="Menu"
+    elif(b==1):
+        cursor.execute("drop table if exists Restaurant.Intermediate")
+        cursor.execute("create table Intermediate(Dish_code Varchar(10) Primary key, Dish_name Varchar(20) unique, Dish_nature varchar(20) not null, veg_nonveg varchar(15) not null, portion_size varchar(12), price float(5) not null)")
+        for row in data:
+            cursor.execute("insert into Intermediate(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+            con.commit()
+        table="Intermediate"
+    else:
+        print("Enter a valid integer next time.")
+        filteration("Menu")
+    return(table)
+def selectvegnonveg(relation):
+    global table
+    a=int(input("Enter 1 if you wish to explore vegetarian dishes and 2 if non-vegetarian. "))
+    if(a==1):
+        cursor.execute("select * from {} where veg_nonveg like '   V%' order by Dish_code asc".format(relation,))
+        data=cursor.fetchall()
+        print("========================================================================================")
+        print("|Dish code|     Dish Name      |      Dish Type     |  Suitable for |Serving Size|Price|")
+        print("========================================================================================")
+        print("========================================================================================")
+        for row in data:
+            print("",end="|")
+            for i in row:
+                if(type(i)==float and len(str(i))==4):
+                    print(i,end=" |")
+                else:    
+                    print(i,end="|")
+            print("")
+            print("========================================================================================")
+    elif(a==2):
+        cursor.execute("select * from {} where veg_nonveg like ' N%' order by Dish_code asc".format(relation,))
+        data=cursor.fetchall()
+        print("========================================================================================")
+        print("|Dish code|     Dish Name      |      Dish Type     |  Suitable for |Serving Size|Price|")
+        print("========================================================================================")
+        print("========================================================================================")
+        for row in data:
+            print("",end="|")
+            for i in row:
+                if(type(i)==float and len(str(i))==4):
+                    print(i,end=" |")
+                else:    
+                    print(i,end="|")
+            print("")
+            print("========================================================================================")
+    else:
+         print("Enter a valid number next time.")
+         print("Re-run the programme.")
+    b=int(input("Do you want to continue with this table (press 1) or the original (press 2). "))
+    if(b==2):
+        table="Menu"
+    elif(b==1):
+        cursor.execute("drop table if exists Restaurant.Intermediate")
+        cursor.execute("create table Intermediate(Dish_code Varchar(10) Primary key, Dish_name Varchar(20) unique, Dish_nature varchar(20) not null, veg_nonveg varchar(15) not null, portion_size varchar(12), price float(5) not null)")
+        for row in data:
+            cursor.execute("insert into Intermediate(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+            con.commit()
+        table="Intermediate"
+    else:
+        print("Enter a valid integer next time.")
+        filteration("Menu")
+    return(table)
+def serve(relation):
+    global table
+    rel=relation
+    a=int(input("Enter how many people does the dish serve. "))
+    serve='  Serves '+str(a)+'  '
+    cursor.execute("select * from {} where portion_size='{}' order by Dish_code asc".format(rel, serve))
+    data=cursor.fetchall()
+    print("========================================================================================")
+    print("|Dish code|     Dish Name      |      Dish Type     |  Suitable for |Serving Size|Price|")
+    print("========================================================================================")
+    print("========================================================================================")
+    for row in data:
+        print("",end="|")
+        for i in row:
+            if(type(i)==float and len(str(i))==4):
+                print(i,end=" |")
+            else:    
+                print(i,end="|")
+        print("")
+        print("========================================================================================")
+    b=int(input("Do you want to continue with this table (press 1) or the original (press 2). "))
+    if(b==2):
+        table="Menu"
+    elif(b==1):
+        cursor.execute("drop table if exists Restaurant.Intermediate")
+        cursor.execute("create table Intermediate(Dish_code Varchar(10) Primary key, Dish_name Varchar(20) unique, Dish_nature varchar(20) not null, veg_nonveg varchar(15) not null, portion_size varchar(12), price float(5) not null)")
+        for row in data:
+            cursor.execute("insert into Intermediate(Dish_code, Dish_name, Dish_nature, veg_nonveg, portion_size, price) values('{}', '{}', '{}', '{}', '{}', {})".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+            con.commit()
+        table="Intermediate"
+    else:
+        print("Enter a valid integer next time.")
+        filteration("Menu")
+    return(table)
+table="Menu"
+def order():
+    ans="y"
+    lis=[]
+    while (ans=="y"):
+        a=int(input("Enter dish code. "))
+        if(len(str(a))==1):
+            code="   "+"0"+str(a)+"    "
+        elif(len(str(a))==2):
+            code="   "+str(a)+"    "
+        qty=int(input("Enter quantity of dish you want. "))
+        qty1=" "+str(qty)+" "
+        cursor.execute("select Dish_name, Dish_nature, veg_nonveg, portion_size, price from Menu where Dish_code={}".format(code))
+        data=cursor.fetchall()
+        for i in data:
+            name,nature,vnv,size,price=i
+        tup=(name.strip(),price,qty,price*qty)
+        lis=lis+[tup]
+        ans=input("Enter y if you wish to enter more dishes and any other key to exit. ")
+    items=0
+    money=0
+    for i in lis:
+        items=items+i[2]
+        money=money+i[3]
+    gst=money*5/100
+    gstw="GST="+str(gst)
+    with open("Order.csv", "w",newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["Name","Price","Quantity","Total price"])
+        w.writerows(lis)
+        w.writerow([None,None,items,money])
+        w.writerow([None,None,"GST",gst])
+        w.writerow([None,None,"Net amount payable",gst+money])
+        w.writerow(["Thank","you","for","ordering"])
+        w.writerow(["Have","a","nice","day"])
+    print("Please collect you bill from file. Have a nice day!")
+def filteration(table):
+    a=int(input("Enter 1 if you want to add to the menu, 2 if filter by price, 3 if filter by dish type, 4 if filter by veg/non-veg, 5 if filter by serving size and 6 if you now wish to place order. "))
+    if(a==1):
+        table=insertnew(table)
+        filteration(table)
+    elif(a==2):
+        table=selectprice(table)
+        filteration(table)
+    elif(a==3):
+        table=selectdishtype(table)
+        filteration(table)
+    elif(a==4):
+        table=selectvegnonveg(table)
+        filteration(table)
+    elif(a==5):
+        table=serve(table)
+        filteration(table)
+    elif(a==6):
+        order()
+    else:
+        print("Enter a valid number next time.")
+        filteration(table)
+filteration(table)
+cursor.execute("drop table if exists Restaurant.Menu")
+cursor.execute("drop table if exists Restaurant.Intermediate")
+
+
